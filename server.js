@@ -17,10 +17,13 @@ app.use(morgan('dev'))
 
 
 // Routing
-app.use('/', require('./routes/index'))
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'))
+})
 
 // API routing
 app.use('/api', require('./routes/api'))
+app.use('/api/auth', require('./routes/auth'))
 
 // 404 Handling
 app.use((req, res, next) => {

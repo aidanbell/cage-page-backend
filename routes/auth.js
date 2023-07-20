@@ -1,9 +1,8 @@
 const express = require("express");
 const router = express.Router();
-const User = require("../../models/user");
+const User = require("../models/user");
 const { OAuth2Client } = require("google-auth-library");
 const JWT = require("jsonwebtoken");
-const user = require("../../models/user");
 
 const client = new OAuth2Client(
   process.env.GOOGLE_CLIENT_ID,
@@ -42,6 +41,17 @@ router.get('/user', async (req, res) => {
   if (user) {
     const userDoc = user.toObject()
     return res.status(200).json(userDoc)
+  }
+  return res.status(400)
+})
+
+router.get('/refreshToken', async (req, res) => {
+  const token = req.headers.authorization.split(' ')[1]
+  const payload = JWT.verify(token, process.env.JWT_SECRET)
+  const user = await User.findById(payload.user._id).populate('watched')
+  if (user) {
+    const token = JWT.sign({user}, process.env.JWT_SECRET)
+    return res.status(200).json(token)
   }
   return res.status(400)
 })

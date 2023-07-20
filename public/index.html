@@ -27,19 +27,31 @@
   </div>
   <main class="content">
     <div class="api-about">
+      <h2>Authorization</h2>
+      <div class="box">
+        Authorization is done through the front end at <a href="https://www.thecage.page/">The Cage Page</a>
+        using (for the time being) Google OAuth. The front end then sends a request to the API with the user's
+        JWT included in the Authorization header as a Bearer token. The API then verifies the JWT and uses the
+        user's id to find the user in the database.
+        <br>
+        <h5 class="title">Sample Request:</h5>
+        <pre>
+          <code>
+curl --request GET \
+  --url https://cage-page-api.herokuapp.com/api/movies \
+  --header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6Im51bGwiLCJuYW1lIjoic2FtcGxlIiwiZ29vZ2xlSWQiOiIxMjM0NTY3OCIsInVwZGF0ZWRBdCI6IjIwMjMtMDctMTRUMTY6MjI6MjcuNDUzWiJ9LCJpYXQiOjE2ODkzNTUwNzN9.FMzo5i0b2ckkxn1HAbxdFTZ-qh6gQUYzue15ujFlyeE'
+  --header 'accept: application/json'
+          </code>
+        </pre>
+      </div>
       <h2>API Endpoints:</h2>
-      <p>
-        Here all all of the available API endpoints. Routes marked with 
-        <span class="icon"><i class="fa-solid fa-lock"></i></span>
-        are Authenticated routes that logged in users can access. 
-      </p>
       <div class="box hoverable">
         <div class="box-title" id="index">
           <h2>
             <span class="tags has-addons">
               <span class="tag is-large is-dark">GET</span>
               <span class="tag is-large is-info code">/api/movies</span>
-              <span class="tag is-large"><i class="fa-solid fa-lock-open"></i></span>
+              <span class="tag is-large is-palegreen"><i class="fa-solid fa-lock-open"></i></span>
             </span>
           </h2>
           <span class="icon is-large">
@@ -98,7 +110,7 @@
             <span class="tags has-addons">
               <span class="tag is-large is-dark">GET</span>
               <span class="tag is-large is-info code">/api/movies/:movieId</span>
-              <span class="tag is-large"><i class="fa-solid fa-lock-open"></i></span>
+              <span class="tag is-large is-palegreen"><i class="fa-solid fa-lock-open"></i></span>
             </span>
           </h2>
           <span class="icon is-large">
@@ -152,21 +164,379 @@
       </div>
       <div class="box hoverable">
         <div class="box-title">
-          <h2 class="title">
+          <h2>
             <span class="tags has-addons">
               <span class="tag is-large is-dark">POST</span>
-              <span class="tag is-large is-orange code">/api/movies</span>
-              <span class="tag is-large"><i class="fa-solid fa-lock"></i></span>
+              <span class="tag is-large is-warning code">/api/movies/:movieId/watched</span>
+              <span class="tag is-large is-palered"><i class="fa-solid fa-lock"></i></span>
             </span>
           </h2>
           <span class="icon is-large">
             <i class="fas fa-arrow-down fa-2x"></i>
           </span>
         </div>
+        <div class="box-info hidden">
+          <div class="left">
+            <h4>Add to Watched List</h4>
+            <p>
+              This route requires authentication to add the chosen movie to their list of watched
+              movies <span class="italic">[See Authorization]</span>. The watched list serves the purpose of creating a dashboard of misery where the 
+              user can count the amount of hours they've wasted watching Nicolas Cage movies.
+            </p>
+            <table class="table is-bordered is-striped">
+              <thead>
+                <tr>
+                  <th>Query Parameter</th>
+                  <th>Value</th>
+                  <th>Description</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>movieId</td>
+                  <td><span class="italic">[type: Number],<br></span></td>
+                  <td>The id of the movie to find</td>
+                </tr>
+              </tbody>
+            </table>
+            <table class="table is-bordered is-striped">
+              <tbody>
+                <tr>
+                  <th>Auth:</th>
+                  <td>
+                    Valid JWT included in Authorization header as Bearer token <span class="italic">See Authorization</span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="right">
+            <p>
+              The response includes a success boolean, and an array of the user's watched movies.
+            </p>
+            <h4>Example Response:</h4>
+            <pre class="response">
+              <code>
+        {
+          "_id": String, // internal user id
+          "name": String,
+          "googleId": String, // for google auth
+          "watched": [Number], // movie ids 
+          "updatedAt": Date,
+          "success": Boolean,
+        }
+              </code>
+            </pre>  
+          </div>
+        </div>
       </div>
-      <span class="icon">
-        <i class="fas fa-arrow-down"></i>
-      </span>
+      <div class="box hoverable">
+        <div class="box-title">
+          <h2>
+            <span class="tags has-addons">
+              <span class="tag is-large is-dark">GET</span>
+              <span class="tag is-large is-info code">/api/movies/:movieId/rules</span>
+              <span class="tag is-large is-palegreen"><i class="fa-solid fa-lock-open"></i></span>
+            </span>
+          </h2>
+          <span class="icon is-large">
+            <i class="fas fa-arrow-down fa-2x"></i>
+          </span>
+        </div>
+        <div class="box-info hidden">
+          <div class="left">
+            <h4>Get Rules</h4>
+            <p>
+              This route returns all of the rules for a specific movie. The movie is specified by the movieId parameter
+              in the URL as a type Number.
+            </p>  
+            <table class="table is-bordered is-striped">
+              <thead>
+                <tr>
+                  <th>Query Parameter</th>
+                  <th>Value</th>
+                  <th>Description</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>movieId</td>
+                  <td><span class="italic">[type: Number],<br></span></td>
+                  <td>The id of the movie to find rules for</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="right">
+            <h4>Example Response:</h4>
+            <pre class="response">
+              <code>
+        [
+          {
+            "_id": String, // internal rule id
+            "user": String // internal user id
+            "content": String,
+            "toasts": [String], // user ids
+            "movieId": Number,
+            "createdAt": Date,
+            "updatedAt": Date,
+          },
+          ...
+        ]
+
+              </code>
+            </pre>  
+          </div>
+        </div>
+      </div>
+      <div class="box hoverable">
+        <div class="box-title">
+          <h2>
+            <span class="tags has-addons">
+              <span class="tag is-large is-dark">POST</span>
+              <span class="tag is-large is-warning code">/api/movies/:movieId/rules</span>
+              <span class="tag is-large is-palered"><i class="fa-solid fa-lock"></i></span>
+            </span>
+          </h2>
+          <span class="icon is-large">
+            <i class="fas fa-arrow-down fa-2x"></i>
+          </span>
+        </div>
+        <div class="box-info hidden">
+          <div class="left">
+            <h4>Add Rule</h4>
+            <p>
+              This route requires Authorization <span class="italic">See Authorization</span> to add a rule to the 
+              database. The request body should be valid JSON with <span class="bold">each of the required</span> properties:
+              <table class="table is-bordered is-striped">
+              <thead>
+                <tr>
+                  <th>key</th>
+                  <th>value</th>
+                  <th>validators</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>user</td>
+                  <td>String</td>
+                  <td>The user's id</td>
+                </tr>
+                <tr>
+                  <td>content</td>
+                  <td>String</td>
+                  <td>Max-length 250</td>
+                </tr>
+                <tr>
+                  <td>movieId</td>
+                  <td>Number</td>
+                  <td>The id of the movie to find rules for</td>
+                </tr>
+              </tbody>
+            </table>
+            </p>  
+            <table class="table is-bordered is-striped">
+              <thead>
+                <tr>
+                  <th>Query Parameter</th>
+                  <th>Value</th>
+                  <th>Description</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>movieId</td>
+                  <td><span class="italic">[type: Number],<br></span></td>
+                  <td>The id of the movie to find rules for</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="right">
+            <p>
+              This route returns a success boolean, and the newly created rule.
+            </p>
+            <h4>Example Response:</h4>
+            <pre class="response">
+              <code>
+        {
+          "_id": String, // internal rule id
+          "user": String // internal user id
+          "author": String
+          "content": String,
+          "toasts": [String], // user ids
+          "movieId": Number,
+          "createdAt": Date,
+          "updatedAt": Date,
+          "success": Boolean
+        }
+              </code>
+            </pre>  
+          </div>
+        </div>
+      </div>
+      <div class="box hoverable">
+        <div class="box-title">
+          <h2>
+            <span class="tags has-addons">
+              <span class="tag is-large is-dark">PUT</span>
+              <span class="tag is-large is-orange code">/api/rules/:ruleId/toast</span>
+              <span class="tag is-large is-palered"><i class="fa-solid fa-lock"></i></span>
+            </span>
+          </h2>
+          <span class="icon is-large">
+            <i class="fas fa-arrow-down fa-2x"></i>
+          </span>
+        </div>
+        <div class="box-info hidden">
+          <div class="left">
+            <h4>Toast Rule</h4>
+            <p>
+              This route requires Authorization <span class="italic">See Authorization</span> to toast a rule.
+              Toasts are collected as an array of user ids, and this route acts as a toggle; if the user has already
+              toasted the rule, the route will remove the user's id from the array. If the user has not toasted the rule,
+              the route will add the user's id to the array.
+            </p>  
+            <table class="table is-bordered is-striped">
+              <thead>
+                <tr>
+                  <th>Query Parameter</th>
+                  <th>Value</th>
+                  <th>Description</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>ruleId</td>
+                  <td><span class="italic">[type: Number],<br></span></td>
+                  <td>The id of the rule to toast</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="right">
+            <p>
+              This route returns a success boolean, and the toasted rule.
+            </p>
+            <h4>Example Response:</h4>
+            <pre class="response">
+              <code>
+        {
+          "_id": String, // internal rule id
+          "user": String // internal user id
+          "author": String
+          "content": String,
+          "toasts": [String], // user ids
+          "movieId": Number,
+          "createdAt": Date,
+          "updatedAt": Date,
+          "success": Boolean
+        }
+              </code>
+            </pre>  
+          </div>
+        </div>
+      </div>
+      <h2>Utility Endpoints:</h2>
+      <div class="box hoverable">
+        <div class="box-title">
+          <h2>
+            <span class="tags has-addons">
+              <span class="tag is-large is-dark">GET</span>
+              <span class="tag is-large is-info code">/user</span>
+              <span class="tag is-large is-palered"><i class="fa-solid fa-lock"></i></span>
+            </span>
+          </h2>
+          <span class="icon is-large">
+            <i class="fas fa-arrow-down fa-2x"></i>
+          </span>
+        </div>
+        <div class="box-info hidden">
+          <div class="left">
+            <h4>Get User Info from Token</h4>
+            <p>
+              This route requires a valid JWT as Authorization <span class="italic">[See Authorization]</span>
+              in order to return the associated user's information from the database. The user document that is
+              returned contains a populated list of that users watched movies.
+            </p>
+          </div>
+          <div class="right">
+            <h4>Example Response:</h4>
+            <pre class="response">
+              <code>
+        {
+          "_id": String, // internal user id
+          "name": String,
+          "watched": [{
+            // Populated movie objects, not ids
+          }],
+          "updatedAt": Date,
+        }
+              </code>
+            </pre>  
+          </div>
+        </div>
+      </div>
+            <div class="box hoverable">
+        <div class="box-title">
+          <h2>
+            <span class="tags has-addons">
+              <span class="tag is-large is-dark">GET</span>
+              <span class="tag is-large is-info code">/refreshToken</span>
+              <span class="tag is-large is-palered"><i class="fa-solid fa-lock"></i></span>
+            </span>
+          </h2>
+          <span class="icon is-large">
+            <i class="fas fa-arrow-down fa-2x"></i>
+          </span>
+        </div>
+        <div class="box-info hidden">
+          <div class="left">
+            <h4>Refresh JWT</h4>
+            <p>
+              This route requires a valid JWT as Authorization <span class="italic">[See Authorization]</span>
+              and will return a new JWT with an updated expiration date.
+            </p>  
+            <table class="table is-bordered is-striped">
+              <thead>
+                <tr>
+                  <th>Query Parameter</th>
+                  <th>Value</th>
+                  <th>Description</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>ruleId</td>
+                  <td><span class="italic">[type: Number],<br></span></td>
+                  <td>The id of the rule to toast</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="right">
+            <p>
+              This route returns a success boolean, and the toasted rule.
+            </p>
+            <h4>Example Response:</h4>
+            <pre class="response">
+              <code>
+        {
+          "_id": String, // internal rule id
+          "user": String // internal user id
+          "author": String
+          "content": String,
+          "toasts": [String], // user ids
+          "movieId": Number,
+          "createdAt": Date,
+          "updatedAt": Date,
+          "success": Boolean
+        }
+              </code>
+            </pre>  
+          </div>
+        </div>
+      </div>
     </div>
   </main>
   <script src="https://kit.fontawesome.com/faa2383f9c.js" crossorigin="anonymous"></script>

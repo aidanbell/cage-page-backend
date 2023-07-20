@@ -13,7 +13,15 @@ body {
 }
 
 .is-orange {
-  background-color: #fdb836 !important;
+  background-color: #fccb6e !important;
+}
+
+.is-palegreen {
+  background-color: #cae6ca !important;
+}
+
+.is-palered {
+  background-color: #f4c6c6 !important;
 }
 
 .box-title {
@@ -62,6 +70,6 @@ body {
   transition: display 1s ease-in-out;
 }
 
-.response code{
+.response code {
   margin: auto;
 }

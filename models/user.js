@@ -31,19 +31,20 @@ const userSchema = new Schema(
       delete ret.email;
       return ret;
      }},
-    toJSON: { transform: function(doc, ret) {
+    toJSON: { transform: async function(doc, ret) {
       delete ret.__v;
       delete ret.email;
       delete ret.picture;
       delete ret.createdAt;
-      delete ret.watched;
+      await doc.populate('watched')
+      ret.watched = doc.watched.map(movie => movie.movieId)
       return ret;
      }}
 });
 
 userSchema.statics.addToWatched = async function(movieId, userId) {
   let user = await this.findById(userId)
-  let movie = await Movie.findOne({movieId: movieId})
+  let movie = await mongoose.model('Movie').findOne({movieId: movieId})
   user.watched.push(movie._id)
   await user.save()
   return user

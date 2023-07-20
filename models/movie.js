@@ -123,10 +123,12 @@ movieSchema.statics.getOne = async function(id) {
 
 movieSchema.statics.addRule = async function(id, rule) {
   movie = await this.model('Movie').findOne({movieId: id})
+  user = await User.findById(rule.user)
+  rule.author = user.name
   let newRule = await Rule.create(rule)
   movie.rules.push(newRule)
   await movie.save()
-  return movie
+  return newRule
 }
 
 

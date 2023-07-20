@@ -8,6 +8,10 @@ const ruleSchema = new Schema(
       ref: "User",
       required: true, 
     },
+    author: {
+      type: String,
+      default: 'Unknown'
+    },
     content: {
       type: String,
       required: true,
