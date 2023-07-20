@@ -8,5 +8,23 @@
     "mongoose": "^7.4.0",
     "morgan": "^1.10.0",
     "path": "^0.12.7"
-  }
+  },
+  "scripts": {
+    "start": "node server.js"
+  },
+  "name": "cage-page-backend",
+  "description": "<img src=\"./public/images/cage.png\" width=120 align=\"right\"><a href=\"https://the-cage-page.herokuapp.com\" target=\"_blank\">🌐 Check it out here...</a> || <code>🖮 https://the-cage-page.herokuapp.com/</code> <hr>",
+  "version": "1.0.0",
+  "main": "server.js",
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aidanbell/cage-page-backend.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/aidanbell/cage-page-backend/issues"
+  },
+  "homepage": "https://github.com/aidanbell/cage-page-backend#readme"
 }
