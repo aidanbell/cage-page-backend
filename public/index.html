@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cage Page API</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+  <link rel="stylesheet" href="stylesheets/styles.css">
+  <link rel="stylesheet"
+  href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/atom-one-dark.min.css">
+  <script defer src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+  <script defer src="javascripts/scripts.js"></script>
+</head>
+<body>
+  <h1 class="title center"><img class="cage-icon" src="images/cage.png"> Welcome to the Cage Page API</h1>
+  <div class="hero content box">
+    <p>
+      This RESTful API serves as the backend to <a href="https://www.thecage.page/">The Cage Page</a>, a webapp that 
+      allows users to view all of Nicolas Cage's movies, create a watch list, and (most importantly) create 
+      and view drinking games rules for each of the movies. Users can also "toast" other users' drinking game rules
+      to show their appreciation, and to rank them as effective in making the movies bearable to watch.
+    </p>
+    <p>
+      The API is built using Express and Node.js, and
+      MongoDB as a database. The API is hosted on Heroku, and the database is hosted on MongoDB Atlas. 
+    </p>
+  </div>
+  <main class="content">
+    <div class="api-about">
+      <h2>API Endpoints:</h2>
+      <p>
+        Here all all of the available API endpoints. Routes marked with 
+        <span class="icon"><i class="fa-solid fa-lock"></i></span>
+        are Authenticated routes that logged in users can access. 
+      </p>
+      <div class="box hoverable">
+        <div class="box-title" id="index">
+          <h2>
+            <span class="tags has-addons">
+              <span class="tag is-large is-dark">GET</span>
+              <span class="tag is-large is-info code">/api/movies</span>
+              <span class="tag is-large"><i class="fa-solid fa-lock-open"></i></span>
+            </span>
+          </h2>
+          <span class="icon is-large">
+            <i class="fas fa-arrow-down fa-2x"></i>
+          </span>
+        </div>
+        <div class="box-info hidden">
+          <div class="left">
+            <h4>Index</h4>
+            <p>
+              This route returns all of the movies in the database. The movies returned are only movies that
+              have already been released in theatres. The movies are sorted by title by default, but can be sorted
+              by other values by passing in a query parameter.
+            </p>
+            <table class="table is-bordered is-striped">
+              <thead>
+                <tr>
+                  <th>Query Parameter</th>
+                  <th>Value</th>
+                  <th>Description</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>sort</td>
+                  <td><span class="italic">[type: String],<br></span> <span class="bold">title</span>, releaseDate, rating, rulesCount</td>
+                  <td>Sorts the movies by the given value</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="right">
+            <h4>Example Response:</h4>
+            <pre class="response">
+              <code>
+        [
+          {
+            &quot;title&quot;: String,
+            &quot;movieId&quot;: Number,
+            &quot;posterPath&quot;: String,
+            &quot;starring&quot;: Boolean,
+            &quot;releaseDate&quot;: Date,
+            &quot;rating&quot;: Number,
+            &quot;rulesCount&quot;: Number
+          }, 
+          ...
+        ]
+              </code>
+            </pre>  
+          </div>
+        </div>
+      </div>
+      <div class="box hoverable">
+        <div class="box-title">
+          <h2>
+            <span class="tags has-addons">
+              <span class="tag is-large is-dark">GET</span>
+              <span class="tag is-large is-info code">/api/movies/:movieId</span>
+              <span class="tag is-large"><i class="fa-solid fa-lock-open"></i></span>
+            </span>
+          </h2>
+          <span class="icon is-large">
+            <i class="fas fa-arrow-down fa-2x"></i>
+          </span>
+        </div>
+        <div class="box-info hidden">
+          <div class="left">
+            <h4>Details</h4>
+            <p>
+              This route returns the details of a specific movie. The movie is specified by the movieId parameter
+              in the URL as a type Number. 
+            </p>
+            <table class="table is-bordered is-striped">
+              <thead>
+                <tr>
+                  <th>Query Parameter</th>
+                  <th>Value</th>
+                  <th>Description</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>movieId</td>
+                  <td><span class="italic">[type: Number],<br></span></td>
+                  <td>The id of the movie to find</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="right">
+            <h4>Example Response:</h4>
+            <pre class="response">
+              <code>
+        {
+          "movieId": Number,
+          "title": String,
+          "posterPath": String,
+          "starring": Boolean,
+          "genres": [String],
+          "overview": String,
+          "releaseDate": Date,
+          "rating": Number,
+          "rules": [String],  // rule ids
+          "rulesCount": Number
+        }
+              </code>
+            </pre>  
+          </div>
+        </div>
+      </div>
+      <div class="box hoverable">
+        <div class="box-title">
+          <h2 class="title">
+            <span class="tags has-addons">
+              <span class="tag is-large is-dark">POST</span>
+              <span class="tag is-large is-orange code">/api/movies</span>
+              <span class="tag is-large"><i class="fa-solid fa-lock"></i></span>
+            </span>
+          </h2>
+          <span class="icon is-large">
+            <i class="fas fa-arrow-down fa-2x"></i>
+          </span>
+        </div>
+      </div>
+      <span class="icon">
+        <i class="fas fa-arrow-down"></i>
+      </span>
+    </div>
+  </main>
+  <script src="https://kit.fontawesome.com/faa2383f9c.js" crossorigin="anonymous"></script>
+</body>
+</html>
