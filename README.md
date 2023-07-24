@@ -3,6 +3,9 @@
 <img src="./public/images/cage.png" width=120 align="right"><a href="https://thecage.page/" target="_blank">🌐 Check it out here...</a> || <code>🖮 https://thecage.page/</code>
 <hr>
 
+
+## <a href="http://cage-page-backend.eba-vnkpz5mk.ca-central-1.elasticbeanstalk.com/">📚 The Docs</a>
+
 ## 💭 The Concept:
 
 The Cage Page is a silly idea that has grown more and more. 
@@ -24,6 +27,14 @@ staring `Nic Cage`
 
 ## 📋 The Process:
 - The app was initially built on the Express framework using Mongoose to connect to a MongoDB database. The app began to develop the need for a more advanced front-end, so React was added to the existing backend. With the file structure becoming bloated by legacy code and a new front-end, the two were separated for better organization, and ease of deployment. The backend is currently deployed using AWS Elastic Beanstalk, EC2, and S3 Buckets for static assets. 
+
+## 🧰 The Tech:
+![Express.js](https://img.shields.io/badge/express.js-%23404d59.svg?style=for-the-badge&logo=express&logoColor=%2361DAFB)
+![NodeJS](https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white)
+![MongoDB](https://img.shields.io/badge/MongoDB-%234ea94b.svg?style=for-the-badge&logo=mongodb&logoColor=white)
+![JWT](https://img.shields.io/badge/JWT-black?style=for-the-badge&logo=JSON%20web%20tokens)
+![AWS](https://img.shields.io/badge/AWS-%23FF9900.svg?style=for-the-badge&logo=amazon-aws&logoColor=white)
+![Bulma](https://img.shields.io/badge/bulma-00D0B1?style=for-the-badge&logo=bulma&logoColor=white)
 
 ## 🔮 The Future:
 In no order of priority, this is what I'm working to add to The Cage Page:
