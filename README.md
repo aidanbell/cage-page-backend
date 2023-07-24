@@ -1,6 +1,6 @@
 # THE CAGE PAGE API
 
-<img src="./public/images/cage.png" width=120 align="right"><a href="https://the-cage-page.herokuapp.com" target="_blank">🌐 Check it out here...</a> || <code>🖮 https://the-cage-page.herokuapp.com/</code>
+<img src="./public/images/cage.png" width=120 align="right"><a href="https://thecage.page/" target="_blank">🌐 Check it out here...</a> || <code>🖮 https://thecage.page/</code>
 <hr>
 
 ## 💭 The Concept:
@@ -13,22 +13,20 @@ staring `Nic Cage`
 - There was no established drinking games for any of these movies, since a good deal of them never saw the flicker of a movie theatre projector
 
 ## ☑️ The Features:
-- Users should log in using Google Auth to begin the experience
-- Users will land at a dashboard of all of their watched `Cage` movies
-- Users can browse a list of movies (which obviously only include `Nic Cage`)
-- Clicking on a movie will show a details view, complete with plot, genres, and a user rating
-- From the details page, users can add the movie to their 'watched' list (Sorry, there's no unseeing a `Cage` movie)
-- Users can also add rules to each Cage movie, which will show up in a scrollable section beside the movie details
-- If a rule was particularly good, users can "Toast" a rule, adding to a running counter
+- (Currently) 6 different endpoints to interact with the functionality of the app:
+  - Index: Get all movies (starring Nic Cage, of course)
+  - Detail: Get one movie by ID
+  - Add to Watchlist: Add the movie to your watch list
+  - Rules: Get all rules for a given movie
+  - Add Rule: Create a new rule
+  - Toast: Give a rule a toast, showing your affection
 
 
 ## 📋 The Process:
-- The app was built on the Express framework using Mongoose to connect to a MongoDB database. Passport and OAuth allow users to log in, and have ownership over rules and ratings. The original (and still current) version uses EJS as a templating engine, but there is a slow transistion happening to a more modern SPA front-end built with React. 
+- The app was initially built on the Express framework using Mongoose to connect to a MongoDB database. The app began to develop the need for a more advanced front-end, so React was added to the existing backend. With the file structure becoming bloated by legacy code and a new front-end, the two were separated for better organization, and ease of deployment. The backend is currently deployed using AWS Elastic Beanstalk, EC2, and S3 Buckets for static assets. 
 
 ## 🔮 The Future:
 In no order of priority, this is what I'm working to add to The Cage Page:
-- Index indexing:
-  - Sort by name, date, rules total, rating, etc
 - Improved User Dashboard:
   - See engagement on rules
   - See total rules
@@ -36,8 +34,6 @@ In no order of priority, this is what I'm working to add to The Cage Page:
   - "this rule was too strong"
   - "this never happens"
   - etc
-What I'm working on:
-  - Transitioning to API calls from a SPA
 
 ## 🤝 The Data:
 ### Movie data thanks to the amazing:
