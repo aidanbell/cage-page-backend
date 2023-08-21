@@ -9,7 +9,7 @@ const app = express()
 require('dotenv').config()
 require('./config/database')
 
-app.use(cors())
+app.use(cors({origin: process.env.CLIENT_URL}))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(express.static(path.join(__dirname, 'public')))

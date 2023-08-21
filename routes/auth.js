@@ -6,19 +6,20 @@ const JWT = require("jsonwebtoken");
 
 const client = new OAuth2Client(
   process.env.GOOGLE_CLIENT_ID,
-  process.env.GOOGLE_SECRET
+  process.env.GOOGLE_SECRET,
+  'postmessage'
 );
 
 router.post("/google", async (req, res) =>{
-  console.log(req.body.credential)
+  const tokens = await client.getToken(req.body.code)
   const ticket = await client.verifyIdToken({
-    idToken: req.body.credential,
+    idToken: tokens.tokens.id_token,
     audience: process.env.GOOGLE_CLIENT_ID
-  });
-  console.log(ticket)
-  const payload = ticket.getPayload();
+  })
+  const payload = ticket.getPayload()
   if (payload) {
     let user = await User.findOne({googleId: payload.sub})
+    console.log(user)
     if (!user) {
       user = await User.create({
         name: payload.name,
@@ -27,7 +28,7 @@ router.post("/google", async (req, res) =>{
         picture: payload.picture
       })
     }
-    const token = JWT.sign({user}, process.env.JWT_SECRET)
+    const token = JWT.sign({user: user.toObject()}, process.env.JWT_SECRET)
     console.log(token)
     return res.status(200).json(token)
   }
@@ -37,6 +38,8 @@ router.post("/google", async (req, res) =>{
 router.get('/user', async (req, res) => {
   const token = req.headers.authorization.split(' ')[1]
   const payload = JWT.verify(token, process.env.JWT_SECRET)
+  console.log(payload)
+
   const user = await User.findById(payload.user._id).populate('watched')
   if (user) {
     const userDoc = user.toObject()
